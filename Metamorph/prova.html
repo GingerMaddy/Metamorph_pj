@@ -1,0 +1,80 @@
+
+<!-- <!DOCTYPE html>
+<html lang="it">
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="./test_prova.js"></script>
+        <title>test</title>
+        <meta charset="UTF-8">
+        <meta name= "description"
+            content="subscribe with an account on yourTournAment">
+    </head>
+    <body class="test_content">
+        <button id="test_button">click to test</button>
+        <p id="output_test" ></p>
+    </body>
+</html>
+
+-->
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Inserimento Celle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Inserisci Dati Celle</h2>
+<form action="https://localhost/Metamorph/API/cells/create_cell.php" method="post">
+    <input type="number" name="cell_id" placeholder="Cella" required>
+    <input type="text" name="temperature" placeholder="Temperatura" required>
+    <input type="text" name="humidity" placeholder="Umidità" required>
+    <input type="text" name="food" placeholder="Cibo" required>
+    <input type="date" name="date" required>
+    <input type="number" name="larvae_count" placeholder="Conteggio larve" required>
+    <input type="number" name="pupae_count" placeholder="Conteggio pupe" required>
+    <input type="number" name="adult_count" placeholder="Conteggio adulti" required>
+    <input type="number" name="total_individuals" placeholder="Totale individui" required>
+    <input type="number" name="total_female" placeholder="Totale femmine" required>
+    <input type="number" name="total_male" placeholder="Totale maschi" required>
+    <button type="submit">Invia</button>
+</form>
+
+</body>
+</html>

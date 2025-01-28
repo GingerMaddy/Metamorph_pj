@@ -1,0 +1,25 @@
+body {
+    background-image: url('media/7-Cydalima-perspectalis.jpg'); /* Replace with the path to your butterfly image */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+.btn-access {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+}
+
+footer {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+}
