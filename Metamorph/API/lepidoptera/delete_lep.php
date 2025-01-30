@@ -1,102 +1,52 @@
 <?php
+session_start(); // Inizia sessione
 
+// Verifica POST
+var_dump($_POST); // Mostra i dati POST ricevuti
 
-// includi il file con le funzioni per connettersi al db
-
+// Include file di connessione al database
 include_once('./../librerie_comuni/db_connection.php');
 
-
-// Controllo che la richiesta sia POST e che l'utente sia connesso
-
+// Verifica se il metodo della richiesta è POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    session_start();
+    // Controlla se è stato inviato "lep_id"
+    if (isset($_POST["lep_id"])) {
 
+        // Sanitizza l'input
+        $lep_id = test_input($_POST["lep_id"]);
 
-    if (!isset($_SESSION['username'])) {
+        // Connessione al database
+        $db = set_up_connection('localhost', 'Metamorph', 'Maddalena', '12345'); 
 
-        die("Accesso non autorizzato.");
+        if (!$db) {
+            die("Connessione al database fallita."); // Interrompe se la connessione fallisce
+        }
 
-    }
+        // Query di eliminazione
+        $query = "DELETE FROM Lepidoptera WHERE lep_id = :lep_id";
 
+        // Definisci i parametri
+        $params = [':lep_id' => $lep_id];
 
-// Recupera e valida l'ID del Lepidoptera da eliminare
+        // Esegui la query
+        try {
+            $result = execute_query($query, $db, $params); // Esegui la query con i parametri forniti
 
-    if (isset($_POST["lep_id"])) { // verifico che l'ID del Lepidoptera sia valido per poterlo eliminare
-
-        $lep_id = test_input($_POST["lep_id"]); // funzione test_input per pulire l'input
-
+            // Verifica il risultato
+            if ($result) {
+                echo "Il record con ID Lepidoptera $lep_id è stato eliminato con successo.";
+            } else {
+                echo "Errore durante l'eliminazione del record."; // Mostra un messaggio di errore se la query fallisce
+            }
+        } catch (Exception $e) {
+            // Cattura eccezioni e restituisci messaggio
+            echo "Errore durante l'esecuzione della query: " . $e->getMessage();
+        }
     } else {
-
-        die("ID Lepidoptera non fornito.");
-
+        die("Dati non forniti."); // Se i dati richiesti non sono corretti
     }
-
-}
-// Connettere al db
-
-$db = set_up_connection('localhost', 'Metamorph', 'Maddalena', '12345'); 
-
-
-if ($db) {
-
-// Controlla se il Lepidoptera esiste
-
-    if (record_exists($db, 'Lepidoptera', $lep_id)) {
-
-// Utilizza la funzione record_select_id per recuperare i dati di Lepidoptera
-
-        $lep_data = record_select_id($db, 'Lepidoptera', $lep_id);
-
-        
- // Definisci la query di eliminazione
-
-        $query_delete = "DELETE FROM Lepidoptera WHERE lep_id = :lep_id";
-
-        $params_delete = [':lep_id' => $lep_id];
-
-        
-
-// Esegui la query di eliminazione
-
-        $result = execute_query($query_delete, $db, $params_delete);
-
-    } else {
-
-        die("Nessun Lepidoptera trovato con ID $lep_id."); // Gestione dell'errore se non esiste
-
-    }
-
-}
-
-// Controlla il risultato
-
-if ($result) {
-
-// Mostra un messaggio di conferma con i dati Lepidoptera eliminato
-
-    echo "Lepidoptera con ID " . $lep_data[0]['lep_id'] . " è stato eliminato con successo.<br>";
-
-    echo "Dettagli del Lepidoptera eliminato:<br>";
-
-    echo "Specie: " . $lep_data[0]['species'] . "<br>";
-
-    echo "Genere: " . $lep_data[0]['sex'] . "<br>";
-
-    echo "Stadio: " . $lep_data[0]['stage'] . "<br>";
-
-    echo "Peso: " . $lep_data[0]['weight'] . "<br>";
-
-    echo "Lunghezza: " . $lep_data[0]['length'] . "<br>";
-
-    echo "ID Utente: " . $lep_data[0]['user_id'] . "<br>";
-
-    echo "ID Cella: " . $lep_data[0]['cell_id'] . "<br>";
-
 } else {
-
-    echo "Errore durante l'eliminazione Lepidoptera.";
-
+    die("Richiesta non valida."); // Se il metodo non è POST
 }
-
 ?>

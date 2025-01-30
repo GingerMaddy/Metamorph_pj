@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://localhost/Metamorph/css/basic_style.css"> <!-- Collegamento al file CSS -->
+        <title>Crea account su Metamorph</title>
+        <meta charset="UTF-8">
+        <meta name= "description"
+            content="iscrizione a Metamorph">
+    </head>
+    <body class="main_content">
+         <!-- Barra superiore con il nome del progetto -->
+    <div class="top-bar">
+
+        <a href="https://localhost/Metamorph/yourTournAment_home.html" class="logo">
+
+            <img src="https://localhost/Metamorph/media/caterpillar.svg" alt="Logo" />
+
+        </a>
+
+        <span class="project-name">Metamorph</span> <!-- Nome del progetto -->
+
+    </div>
+        <div class="navBar">
+            <a href="./yourTournAment_home.html"><p>home</p></a>
+        </div>
+        <div class="wholeHome">
+        <div class="centralHome">
+        <h2>Iscriviti a Metamorph</h2>
+        <div id="advise">
+            <p class="advise_text">le informazioni strettamente neccessarie sono marcate da *</p>
+            <p class="advise_text">le altre possono essere cambiate in seguito</p>
+        </div>
+        <form action="./API/user/register_usr.php" id="subscription" onsubmit="" method="POST">
+
+            <br>
+            <label for="nickname">nickname<span class="advise_text">*</span>(min 5 caratteri, max 20, non usare il carattere "_") :</label>
+            <input id="nickname" type="text" name="nickname" required>
+            <div id="form_syntax_error_nickname"></div>
+            <br>
+            <p>seleziona il ruolo</p>
+            <input type="radio" id="amministratore" value="amministratore" name="role">
+            <label for="amministratore">amministratore</label><br>
+            <input type="radio" id="tecnico" value="tecnico" name="role">
+            <label for="tecnico">tecnico</label><br>
+            <input type="radio" id="studente" value="studente" name="role">
+            <label for="studente">studente</label><br>
+            <p>inserisci una password<span class="advise_text">*</span> con le seguenti caratteristiche:</p>
+            <ul>
+                <li>contenere almeno 8 caratteri ma meno di 20</li>
+                <li>almeno un carattere speciale (!,?.@,%,&,_,-)</li>
+                <li>almeno una maiuscola</li>
+                <li>almeno un numero</li>
+            </ul>
+            <input id="password_new" type="password" name="password" required>
+            <div id="form_syntax_error_password"></div>
+            <p>scrivere nuovamente la password<span class="advise_text">*</span> :</p>
+            <input id="password_copy" type="password" name="password2" required>
+            <div id="form_syntax_error_password_copy"></div>
+            <br>
+            <input id="submit" type="submit" value="iscriviti">
+
+        </form>
+        </div>
+        </div>
+    </body>
+</html>

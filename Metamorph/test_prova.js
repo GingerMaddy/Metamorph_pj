@@ -34,13 +34,15 @@ $(document).ready( function () {
     $("#test_button").click(function () {
         // TODO: cambia i parametri della funzione post subito sotto se vuoi testare php diversi
         $.post("./API/cells/create_cell.php", {
+            cell_id : "1",
+
             temperature : "12",
 
             humidity : '12',
 
             food : '12',
 
-            date : '12/01/2020',
+            date : '2020-01-01',
 
             larvae_count : '12',
 
@@ -52,7 +54,10 @@ $(document).ready( function () {
 
             total_female : '12',
 
-            total_male : '12'}).done(function (data) {
+            total_male : '12',
+        
+            user_id : "12"
+        }).done(function (data) {
                 $("#output_test").text(data);
             }).fail(function () {
                 $("#output_test").text("fallita chiamata post");

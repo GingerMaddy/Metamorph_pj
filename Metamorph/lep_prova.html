@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Aggiunto per la responsività -->
+    <link rel="stylesheet" type="text/css" href="https://localhost/Metamorph/css/basic_style.css"> <!-- Collegamento al file CSS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>Lepidoptera</title>
+    <meta name="descrizione" content="Pagina per la gestione dei Lepidoptera">
+</head>
+<body>
+    <!-- Barra superiore con il nome del progetto -->
+    <div class="top-bar">
+
+        <a href="https://localhost/Metamorph/yourTournAment_home.html" class="logo">
+
+            <img src="https://localhost/Metamorph/media/caterpillar.svg" alt="Logo" />
+
+        </a>
+
+        <span class="project-name">Metamorph</span> <!-- Nome del progetto -->
+
+    </div>
+
+
+    <!-- Navbar con i collegamenti alle pagine -->
+    <div class="navBar">
+        <a href="cell-prova.html">Celle</a>
+        <a href="lep_prova.html">Lepidoptera</a>
+    </div>
+
+    <!-- Contenuto principale della pagina -->
+    <div class="wholeHome">
+        <div class="instruction" id="main_content">
+            <div>
+                <h1>Lepidoptera</h1>
+
+                <h3>Inserisci i dati del Lepidoptera:</h3>
+                <form id="lepidopteraForm" action="" method="POST">
+                    <label for="lep_id">ID Lepidoptera:</label>
+                    <input type="number" id="lep_id" name="lep_id" required><br><br>
+
+                    <label for="species">Specie:</label>
+                    <input type="text" id="species" name="species" required><br><br>
+
+                    <label for="sex">Sesso:</label>
+                    <select id="sex" name="sex" required>
+                        <option value="maschio">Maschio</option>
+                        <option value="femmina">Femmina</option>
+                        <option value="sconosciuto">Sconosciuto</option>
+                    </select><br><br>
+
+                    <label for="weight">Peso:</label>
+                    <input type="number" step="0.01" id="weight" name="weight" required><br><br>
+
+                    <label for="length">Lunghezza:</label>
+                    <input type="number" step="0.01" id="length" name="length" required><br><br>
+
+                    <label for="stage">Stadio:</label>
+                    <select id="stage" name="stage" required>
+                        <option value="uovo">Uovo</option>
+                        <option value="larva">Larva</option>
+                        <option value="pupa">Pupa</option>
+                        <option value="adulto">Adulto</option>
+                    </select><br><br>
+
+                    <label for="obsv_id">ID Osservazione:</label>
+                    <input type="number" id="obsv_id" name="obsv_id" required><br><br>
+                    <!-- BRAVA!! così è sicuro, però va' salvato in un cookie al momento in cui l'utente fa login
+                    // il cookie è un variabile che rimane salvata nella sessione, cioè non cambia se l'utente cambia pagina
+                    // oppure esce dal sito, è salvato in locale ed è recuperabile sempre, a meno che non scada.
+                    // nel caso bisogna rifare il login e resettare il cookie -->
+                    <input type="hidden" id="user_id" name="user_id" value="12">
+
+                    <button type="submit">Inserisci Lepidoptera</button>
+                </form>
+                <p id="output"></p>
+
+                <h2>Lepidoptera Inseriti:</h2>
+                <table id="lepidopteraTable">
+                    <thead>
+                        <tr>
+                            <th>ID Lepidoptera</th>
+                            <th>Specie</th>
+                            <th>Sesso</th>
+                            <th>Peso</th>
+                            <th>Lunghezza</th>
+                            <th>Stadio</th>
+                            <th>ID Osservazione</th>
+                            <th>ID Utente</th>
+                            <th>Azioni</th> <!-- Colonna per le azioni -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- I Lepidoptera inseriti appariranno qui -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function() {
+    
+            $('#lepidopteraForm').on('submit', function(event) {
+    
+                event.preventDefault(); // Impedisce l'invio del modulo
+    
+    
+                // Recupera i valori dal form
+    
+                var lep_id = $('#lep_id').val();
+    
+                var species = $('#species').val();
+    
+                var sex = $('#sex').val();
+    
+                var weight = $('#weight').val();
+    
+                var length = $('#length').val();
+    
+                var stage = $('#stage').val();
+    
+                var obsv_id = $('#obsv_id').val();
+    
+                var user_id = $('#user_id').val(); // Questo valore è automatico
+    
+    
+                // Invia i dati al server tramite AJAX
+    
+                $.post("https://localhost/Metamorph/API/lepidoptera/create_lep.php", {
+    
+                    lep_id: lep_id,
+    
+                    species: species,
+    
+                    sex: sex,
+    
+                    weight: weight,
+    
+                    length: length,
+    
+                    stage: stage,
+    
+                    obsv_id: obsv_id,
+    
+                    user_id: user_id
+    
+                })
+    
+                .done(function(data) {
+    
+                    // Aggiungi una nuova riga alla tabella
+    
+                    $('#lepidopteraTable tbody').append(
+    
+                        '<tr>' +
+    
+                        '<td>' + lep_id + '</td>' +
+    
+                        '<td>' + species + '</td>' +
+    
+                        '<td>' + sex + '</td>' +
+    
+                        '<td>' + weight + '</td>' +
+    
+                        '<td>' + length + '</td>' +
+    
+                        '<td>' + stage + '</td>' +
+    
+                        '<td>' + obsv_id + '</td>' +
+    
+                        '<td>' + user_id + '</td>' +
+    
+                        '<td><button class="deleteRow">Elimina</button></td>' + // Pulsante per eliminare la riga
+    
+                        '</tr>'
+    
+                    );
+                    $("#output").text(data);
+    
+    
+                    // Resetta il form per consentire un nuovo inserimento
+    
+                    $('#lepidopteraForm')[0].reset();
+    
+                })
+    
+                .fail(function() {
+    
+                    // Gestisci l'errore
+    
+                    $("#output").text("Si è verificato un errore durante l'invio dei dati.");
+    
+                });
+    
+            });
+    
+    
+            // Gestione del click sul pulsante "Elimina"
+    
+            $(document).on('click', '.deleteRow', function() {
+    
+                // nel post metti l'indirizzo al file php che ti serve (la query che devi fare con il DB)
+    
+                $.post("https://localhost/Metamorph/API/lepidoptera/delete_lep.php",
+    
+                    {
+    
+                        //metti i dati da mandare alla pagina
+    
+                    }
+    
+                ).done(function(data) {
+    
+                    // in data viene salvato la buona o cattiva riuscita della operazione eseguita dalla pagina php chiamata
+    
+                    // fai in modo che restituisca 1 se va' a buon fine, altrimenti -1
+    
+                    //if (data == 1) {
+    
+                        $("#output").append(data);
+    
+                        $(this).closest('tr').remove(); // Rimuove la riga della tabella
+    
+                    //}
+    
+                }).fail(function() {
+    
+                    // connessione fallita, metti un messaggio che lo comunichi nella pagina
+    
+                    $("#output").text("Errore nella connessione al server.");
+    
+                });
+    
+            });
+    
+        });
+    
+    </script>
+</body>
+</html>

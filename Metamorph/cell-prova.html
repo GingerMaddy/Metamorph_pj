@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html lang="it">
+
+<head>
+    <title>Celle</title>
+    <link rel="stylesheet" type="text/css" href="https://localhost/Metamorph/css/basic_style.css"> <!-- Collegamento al file CSS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<meta name="viewport", content="width=device=width", initial-scale="1.0">
+   
+
+    <meta charset="UTF-8">
+   
+
+    <meta name="descrizione" content="Pagina per la gestione delle celle">
+
+</head>
+
+<body>
+
+    <!-- Barra superiore con il nome del progetto -->
+
+
+    <div class="top-bar">
+
+        <a href="https://localhost/Metamorph/yourTournAment_home.html" class="logo">
+
+            <img src="https://localhost/Metamorph/media/caterpillar.svg" alt="Logo" />
+
+        </a>
+
+        <span class="project-name">Metamorph</span> <!-- Nome del progetto -->
+
+    </div>
+
+
+
+
+    <!-- Navbar con i collegamenti alle pagine -->
+
+    <div class="navBar">
+
+        <a  href="cell-prova.html">Celle</a>
+
+        <a href="lep_prova.html">Lepidoptera</a>
+
+    </div>
+
+
+    <!-- Contenuto principale della pagina -->
+
+    <div class="wholeHome">
+
+        <div class="instruction" id="main_content">
+
+            <div>
+
+                <h1>Celle</h1>
+
+
+                <h3>Inserisci i dati della cella:</h3>
+
+                <form id="cellaForm" action="" method="POST">
+
+                    <label for="obsv_id">ID Osservazione:</label>
+
+                    <input type="number" id="obsv_id" name="obsv_id" required><br><br>
+
+
+                    <label for="cell_id">ID Cella:</label>
+
+                    <input type="number" id="cell_id" name="cell_id" required><br><br>
+
+
+                    <label for="temperature">Temperatura:</label>
+
+                    <input type="number" step="0.1" id="temperature" name="temperature" required><br><br>
+
+
+                    <label for="humidity">Umidità:</label>
+
+                    <input type="number" step="0.1" id="humidity" name="humidity" required><br><br>
+
+
+                    <label for="food">Cibo:</label>
+
+                    <input type="text" id="food" name="food" required><br><br>
+
+
+                    <label for="date">Data:</label>
+
+                    <input type="date" id="date" name="date" required><br><br>
+
+
+                    <label for="larvae_count">Conteggio Larve:</label>
+
+                    <input type="number" id="larvae_count" name="larvae_count" required><br><br>
+
+
+                    <label for="pupae_count">Conteggio Pupe:</label>
+
+                    <input type="number" id="pupae_count" name="pupae_count" required><br><br>
+
+
+                    <label for="adult_count">Conteggio Adulti:</label>
+
+                    <input type="number" id="adult_count" name="adult_count" required><br><br>
+
+
+                    <label for="total_individuals">Totale Individui:</label>
+
+                    <input type="number" id="total_individuals" name="total_individuals" required><br><br>
+
+
+                    <label for="total_female">Totale Femmine:</label>
+
+                    <input type="number" id="total_female" name="total_female" required><br><br>
+
+
+                    <label for="total_male">Totale Maschi:</label>
+
+                    <input type="number" id="total_male" name="total_male" required><br><br>
+
+
+                    <input type="hidden" id="user_id" name="user_id" value="12">
+
+
+                    <button type="submit">Inserisci Cella</button>
+
+                </form>
+
+                    <p id="output"></p>
+
+                <h2>Celle Inserite:</h2>
+
+                <table id="celleTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID Osservazione</th>
+
+                            <th>ID Cella</th>
+
+                            <th>Temperatura</th>
+
+                            <th>Umidità</th>
+
+                            <th>Cibo</th>
+
+                            <th>Data</th>
+
+                            <th>Conteggio Larve</th>
+
+                            <th>Conteggio Pupe</th>
+
+                            <th>Conteggio Adulti</th>
+
+                            <th>Totale Individui</th>
+
+                            <th>Totale Femmine</th>
+
+                            <th>Totale Maschi</th>
+
+                            <th>ID Utente</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <!-- Le celle inserite appariranno qui -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        
+    $(document).ready(function() {
+
+        $('#cellaForm').on('submit', function(event) {
+
+            event.preventDefault(); // Impedisce l'invio del modulo
+
+
+            // Recupera i valori dal form
+
+            var obsv_id = $('#obsv_id').val();
+
+            var cell_id = $('#cell_id').val();
+
+            var temperature = $('#temperature').val();
+
+            var humidity = $('#humidity').val();
+
+            var food = $('#food').val();
+
+            var date = $('#date').val();
+
+            var larvae_count = $('#larvae_count').val();
+
+            var pupae_count = $('#pupae_count').val();
+
+            var adult_count = $('#adult_count').val();
+
+            var total_individuals = $('#total_individuals').val();
+
+            var total_female = $('#total_female').val();
+
+            var total_male = $('#total_male').val();
+
+            var user_id = $('#user_id').val(); // Questo valore è ora automatico
+
+
+            // Invia i dati al server tramite AJAX
+
+            $.post("https://localhost/Metamorph/API/cells/create_cell.php", {
+
+                obsv_id: obsv_id,
+
+                cell_id: cell_id,
+
+                temperature: temperature,
+
+                humidity: humidity,
+
+                food: food,
+
+                date: date,
+
+                larvae_count: larvae_count,
+
+                pupae_count: pupae_count,
+
+                adult_count: adult_count,
+
+                total_individuals: total_individuals,
+
+                total_female: total_female,
+
+                total_male: total_male,
+
+                user_id: user_id
+
+            })
+
+            .done(function(data) {
+
+                // Aggiungi una nuova riga alla tabella con i dati restituiti dal server
+            
+                $('#celleTable tbody').append(
+
+                    '<tr>' +
+
+                    '<td>' + obsv_id + '</td>' +
+
+                    '<td>' + cell_id + '</td>' +
+
+                    '<td>' + temperature + '</td>' +
+
+                    '<td>' + humidity + '</td>' +
+
+                    '<td>' + food + '</td>' +
+
+                    '<td>' + date + '</td>' +
+
+                    '<td>' + larvae_count + '</td>' +
+
+                    '<td>' + pupae_count + '</td>' +
+
+                    '<td>' + adult_count + '</td>' +
+
+                    '<td>' + total_individuals + '</td>' +
+
+                    '<td>' + total_female + '</td>' +
+
+                    '<td>' + total_male + '</td>' +
+
+                    '<td>' + user_id + '</td>' +
+
+                    '</tr>'
+
+                );
+
+                $("#output").text(data);
+
+                // Resetta il form
+
+                $('#cellaForm')[0].reset();
+
+            })
+
+            .fail(function() {
+
+                // Gestisci l'errore
+
+                alert("Si è verificato un errore durante l'invio dei dati.");
+
+            });
+
+        });
+
+    });
+
+    </script>
+
+</body>
+
+</html>
+
+
